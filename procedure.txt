@@ -1,0 +1,60 @@
+create proc sp_listaPacientes
+as	
+select * from Paciente order by DNI
+go
+
+alter proc sp_mantenimiento_paciente
+@DNI char(8),
+@Nombre_completo varchar(50),
+@Fecha_de_nacimiento int,
+@Sexo varchar(9),
+@Numero_de_celular varchar(9),
+@Direccion varchar(50),
+@Distrito varchar(50),
+@accion varchar(50) output
+as
+if(@accion='1')
+begin
+if NOT EXISTS (select DNI from Paciente where DNI=@DNI)
+	begin		
+	insert into Paciente(DNI,Nombre_completo,Fecha_de_nacimiento, Sexo, Numero_de_celular, Direccion, Distrito)
+	values(@DNI,@Nombre_completo,@Fecha_de_nacimiento, @Sexo, @Numero_de_celular, @Direccion, @Distrito)
+	end
+	else
+	begin
+	update Paciente set Nombre_completo=@Nombre_completo, Fecha_de_nacimiento=@Fecha_de_nacimiento, Sexo=@Sexo, Numero_de_celular=@Numero_de_celular, Direccion=@Direccion, Distrito=@Distrito where DNI=@DNI
+	end
+end
+else if(@accion = '2')
+begin
+	if EXISTS(select DNI from Paciente where DNI=@DNI)
+	begin
+	update Paciente set Nombre_completo=@Nombre_completo, Fecha_de_nacimiento=@Fecha_de_nacimiento, Sexo=@Sexo, Numero_de_celular=@Numero_de_celular, Direccion=@Direccion, Distrito=@Distrito where DNI=@DNI
+	end
+	
+end
+else if (@accion='3')
+begin
+	if EXISTS (select DNI=@DNI from Paciente where DNI=@DNI)
+	begin
+	delete from Paciente where DNI=@DNI
+    end
+end
+go
+
+alter proc logearse
+@DNI char(8),
+@Numero_de_celular varchar(9),
+@admin int output,
+@validacion int output
+as
+if (@DNI='73325726')
+begin
+    if (@Numero_de_celular='957841815')
+    begin
+    set @admin=1
+    set @validacion=1
+    end
+end
+go
+	

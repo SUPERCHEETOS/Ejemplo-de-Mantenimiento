@@ -1,0 +1,18 @@
+aplicacion de windows form
+biblioteca de clase
+-datos
+using Capa_Entidades;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+-entidades
+-services
+using Capa_Datos;
+using Capa_Entidades;
+using System.Data;
+-(prueba)
+referencias
+datos: entidades - system-configuration
+prueba: entidades y services
+services: datos y entidades
+
